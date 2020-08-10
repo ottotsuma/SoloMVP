@@ -8,9 +8,11 @@ require("dotenv").config();
 const App = () => {
   const [password, setPassword] = useState("beansaregreat");
   const [query, setQuery] = useState("beansy@codechrysalis.com");
-  const [message, setMessage] = useState("Nothing Yet");
+  const [message, setMessage] = useState("");
+  const [loggedIn, setLogin] = useState(true);
 
   useEffect(() => {
+    console.log("The program has started.")
   }, []);
 
   const getMessage = async () => {
@@ -23,8 +25,9 @@ const App = () => {
         }
       );
       console.log(response);
-      console.log(response.data);
-      setMessage(response.data);
+      console.log(response.data.message);
+      setMessage(response.data.message);
+      setLogin(true);
     } catch (error) {
       console.log(error);
       setMessage("Username or Password is invalid!");
@@ -42,7 +45,7 @@ const App = () => {
         }
       );
       console.log(response);
-      setMessage(response.data.message);
+      setMessage("Successful registration");
     } catch (error) {
       console.log(error);
       setMessage("Username or Password is use!");
@@ -116,14 +119,100 @@ const App = () => {
     deleteUser();
   };
 
+  const getLogged = (e) => {
+    e.preventDefault();
+    getMessage();
+  };
 
-
-  return (
-    <div className="App">
-      <h1>SecretBox</h1>
+  if(loggedIn === true) {
+    return (
+      <div className="App">
+      <h1>The Secret Box</h1>
       <div className="image"><img src={logo}></img></div>
       <h2>Retrieve Items:</h2>
       <form onSubmit={getSearch} className="search-form">
+        {/* <div>Email: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={query}
+          onChange={updateUser}
+        />
+        <div>Password: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={password}
+          onChange={updatePass}
+        /> */}
+        <button className="search-button" type="submit">
+          Get Data
+        </button>
+      </form>
+      <div className="Message">Your data is: {message}</div>
+      <h2>Store Items</h2>
+      <form onSubmit={upUser} className="search-form">
+        {/* <div>Email: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={query}
+          onChange={updateUser}
+        />
+        <div>Password: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={password}
+          onChange={updatePass}
+        /> */}
+        <div>Message: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={message}
+          onChange={updateMessage}
+        />
+        <button className="search-button" type="submit">
+          Store
+        </button>
+      </form>
+      <div>You just stored: {message}</div>
+      <h2>Update Items</h2>
+      <form onSubmit={upUser} className="search-form">
+        {/* <div>Email: </div>
+        <input className="search-bar" type="text" value={query} onChange={updateUser} /> */}
+        <div>Message: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={message}
+          onChange={updateMessage}
+        />
+        <button className="search-button" type="submit">
+          Update
+        </button>
+        <div>You just Updated: {message}</div>
+      </form>
+      <h2>Delete Account</h2>
+      <form onSubmit={delU} className="search-form">
+        {/* <div>Email: </div>
+        <input className="search-bar" type="text" value={query} onChange={updateUser} /> */}
+        <button className="search-button" type="submit">
+          Delete
+        </button>
+        <div>You just deleted: {query}</div>
+      </form>
+      
+      </div>// App end
+    )
+  } else {
+  return (
+    <div className="App">
+      <h1>The Secret Box</h1>
+      <div className="image"><img src={logo}></img></div>
+      <h2>Loggin:</h2>
+      <form onSubmit={getLogged} className="search-form">
         <div>Email: </div>
         <input
           className="search-bar"
@@ -142,8 +231,8 @@ const App = () => {
           Login
         </button>
       </form>
-      <div className="Message">Your message is: {message}</div>
-      <h2>Store Items</h2>
+      <div className="Message">{message}</div>
+      <h2>Register Account</h2>
       <form onSubmit={sendReg} className="search-form">
         <div>Email: </div>
         <input
@@ -159,45 +248,21 @@ const App = () => {
           value={password}
           onChange={updatePass}
         />
-        <div>Message: </div>
+        {/* <div>Message: </div>
         <input
           className="search-bar"
           type="text"
           value={message}
           onChange={updateMessage}
-        />
+        /> */}
         <button className="search-button" type="submit">
           Register
         </button>
       </form>
-      <div>You just stored: {message}</div>
-      <h2>Update Items</h2>
-      <form onSubmit={upUser} className="search-form">
-        <div>Email: </div>
-        <input className="search-bar" type="text" value={query} onChange={updateUser} />
-        <div>Message: </div>
-        <input
-          className="search-bar"
-          type="text"
-          value={message}
-          onChange={updateMessage}
-        />
-        <button className="search-button" type="submit">
-          Update
-        </button>
-        <div>You just Updated: {message}</div>
-      </form>
-      <h2>Delete Items</h2>
-      <form onSubmit={delU} className="search-form">
-        <div>Email: </div>
-        <input className="search-bar" type="text" value={query} onChange={updateUser} />
-        <button className="search-button" type="submit">
-          Delete
-        </button>
-        <div>You just deleted: {query}</div>
-      </form>
+      <div>{message}</div>
     </div> // ending div
   );
-};
+ } // else
+}; // app 
 
 export default App;
