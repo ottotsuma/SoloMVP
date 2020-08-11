@@ -71,3 +71,19 @@ h2 {
   padding: 10px 20px;
   color: white; 
 }
+
+ul {
+  display: inline-block;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 1px;
+  list-style: none;
+  text-align: left;
+}
+
+li:before {
+  content: '🎁';
+}

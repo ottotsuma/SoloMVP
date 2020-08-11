@@ -4,13 +4,27 @@ import axios from "axios";
 import logo from "./Group1.png";
 require("dotenv").config();
 
-
 const App = () => {
   const [password, setPassword] = useState("ScottPass");
   const [query, setQuery] = useState("Scott@Smith.com");
   const [message, setMessage] = useState('');
-  const [loggedIn, setLogin] = useState(true);
+  const [loggedIn, setLogin] = useState(false);
   const [replacement, setReplacement] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [arr, setArr] = useState([]);
+
+  const MakeList = (props) => {
+    const array = props.numbers;
+    console.log(array)
+    const listItems = array.map((items) =>
+      <li key={items.toString()}>
+        {items}
+      </li>
+    );
+    return (
+      <ul>{listItems}</ul>
+    );
+  }
 
   useEffect(() => {
     console.log("The program has started.")
@@ -28,13 +42,31 @@ const App = () => {
       );
       console.log(response);
       console.log(response.data.tags);
-      setMessage(response.data.tags);
+      setArr(response.data.tags);
       setLogin(true);
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is invalid!");
+      setFeedback("Username or Password is invalid!");
     }
   };
+
+    // logs user in
+    const loginFunction = async () => {
+      try {
+        const response = await axios.post(
+          `http://localhost:3000/api/user/login`,
+          {
+            email: query,
+            password: password,
+          }
+        );
+        console.log(response);
+        setLogin(true);
+      } catch (error) {
+        console.log(error);
+        setFeedback("Username or Password is invalid!");
+      }
+    };
 
   // makes a new user
   const registerMessage = async () => {
@@ -48,10 +80,10 @@ const App = () => {
         }
       );
       console.log(response);
-      setMessage("Successful registration");
+      setFeedback("Successful registration");
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is use!");
+      setFeedback("Username or Password is use!");
     }
   };
 
@@ -68,7 +100,7 @@ const App = () => {
       setMessage(response.data);
     } catch (error) {
       console.log(error);
-      setMessage("Username is invalid!");
+      setFeedback("Username is invalid!");
     }
   };
 
@@ -84,10 +116,10 @@ const App = () => {
       );
       console.log(response);
       if(typeof response.data === 'string') {setMessage(response.data)}
-      else {setMessage("Your message updated!")}
+      else {setFeedback("Your message updated!")}
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is invalid!");
+      setFeedback("Username or Password is invalid!");
     }
   };
 
@@ -103,10 +135,10 @@ const App = () => {
       );
       console.log(response);
       if(typeof response.data === 'string') {setMessage(response.data)}
-      else {setMessage("Your message updated!")}
+      else {setFeedback("Your message was stored!")}
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is invalid!");
+      setFeedback("Username or Password is invalid!");
     }
   };
 
@@ -122,10 +154,10 @@ const App = () => {
       );
       console.log(response);
       if(typeof response.data === 'string') {setMessage(response.data)}
-      else {setMessage("Your message updated!")}
+      else {setFeedback("Your message deleted!")}
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is invalid!");
+      setFeedback("Username or Password is invalid!");
     }
   };
 
@@ -142,10 +174,10 @@ const App = () => {
       );
       console.log(response);
       if(typeof response.data === 'string') {setMessage(response.data)}
-      else {setMessage("Your message updated!")}
+      else {setFeedback("Your message updated!")}
     } catch (error) {
       console.log(error);
-      setMessage("Username or Password is invalid!");
+      setFeedback("Username or Password is invalid!");
     }
   };
 
@@ -168,6 +200,11 @@ const App = () => {
   };
   const updateReplacement = (e) => {
     setReplacement(e.target.value);
+  };
+
+  const logThisIn = (e) => {
+    e.preventDefault();
+    loginFunction();
   };
 
   const getSearch = (e) => {
@@ -233,7 +270,8 @@ const App = () => {
           Get Data
         </button>
       </form>
-      <div className="Message">Your data is: {message}</div>
+      <div className="Message">Your data is:</div>
+      <MakeList numbers={arr} />
       <h2>Store Items</h2>
       <form onSubmit={addStore} className="search-form">
         {/* <div>Email: </div>
@@ -261,7 +299,7 @@ const App = () => {
           Store
         </button>
       </form>
-      <div>You just stored: {message}</div>
+      <div>You just stored: {feedback}</div>
       <h2>Update Items</h2>
       <form onSubmit={swapStore} className="search-form">
         {/* <div>Email: </div>
@@ -283,7 +321,7 @@ const App = () => {
         <button className="search-button" type="submit">
           Update
         </button>
-        <div>You just Updated: {message}</div>
+        <div>You just Updated: {feedback}</div>
       </form>
       <h2>Delete Item</h2>
       <form onSubmit={upStore} className="search-form">
@@ -299,7 +337,7 @@ const App = () => {
         <button className="search-button" type="submit">
           Delete
         </button>
-        <div>You just deleted: {message}</div>
+        <div>You just deleted: {feedback}</div>
       </form>
       
       </div>// App end
@@ -310,7 +348,7 @@ const App = () => {
       <h1>The Secret Box</h1>
       <div className="image"><img src={logo}></img></div>
       <h2>Loggin:</h2>
-      <form onSubmit={getLogged} className="search-form">
+      <form onSubmit={logThisIn} className="search-form">
         <div>Email: </div>
         <input
           className="search-bar"
@@ -329,7 +367,7 @@ const App = () => {
           Login
         </button>
       </form>
-      <div className="Message">{message}</div>
+      <div className="Message">{feedback}</div>
       <h2>Register Account</h2>
       <form onSubmit={sendReg} className="search-form">
         <div>Email: </div>
@@ -357,7 +395,7 @@ const App = () => {
           Register
         </button>
       </form>
-      <div>{message}</div>
+      <div>{feedback}</div>
     </div> // ending div
   );
  } // else
