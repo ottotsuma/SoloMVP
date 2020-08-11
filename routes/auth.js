@@ -89,4 +89,40 @@ router.post('/login', async (req, res) => {
     res.send(user);
 });
 
+// post messages
+router.patch("/store", async (req, res) => {
+  const user = await User.findOne({email: req.body.email});
+  console.log(user)
+  if(!user) {res.status(200).send("No user by that name.")}
+  console.log("storing")
+  try {
+    const updateObject = req.body;
+    const value = updateObject.message
+    console.log(value)
+    const id = user.id;
+    const updatedUser = await User.update({_id: id}, {$addToSet: {tags: value}});
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
+// deletes item in storage
+router.patch("/update", async (req, res) => {
+  const user = await User.findOne({email: req.body.email});
+  console.log(user)
+  if(!user) {res.status(200).send("No user by that name.")}
+  console.log("updating storage")
+  try {
+    const updateObject = req.body;
+    const value = updateObject.message
+    console.log(value)
+    const id = user.id;
+    const updatedUser = await User.update({_id: id}, {$pull: {tags: value}});
+    res.status(200).send(updatedUser)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+});
+
 module.exports = router;

@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    tags: [{
+        type: String
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);
