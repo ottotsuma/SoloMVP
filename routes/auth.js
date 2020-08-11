@@ -94,7 +94,7 @@ router.post('/login', async (req, res) => {
 });
 
 // fake route for testing the token
-router.get('/me', function(req, res, next) {
+router.get('/me', function(req, res) {
   // console.log(req.headers)
   let token = req.headers["x-access-token"] || req.headers["authorization"]; // Express headers are auto converted to lowercase
 
@@ -119,7 +119,34 @@ router.get('/me', function(req, res, next) {
   });
 });
 
+// function for checking tokens
+const tokenCheck = (req, res) => {
+  console.log("token function start")
+  let token = req.headers["x-access-token"] || req.headers["authorization"]; // Express headers are auto converted to lowercase
 
+  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+
+  if (token.startsWith("Bearer ")) {
+    // Remove Bearer from string
+    token = token.slice(7, token.length);
+  } 
+
+  jwt.verify(token, process.env.TOKEN_SECRET, async function(err, decoded) {
+    if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+    
+    await User.findById(decoded.userId, 
+    { password: 0 }, // projection
+    function (err, user) {
+      if (err) return res.status(500).send("There was a problem finding the user.");
+      if (!user) return res.status(404).send("No user found.");
+        
+      console.log("token function end")
+      console.log(user)
+      return(user)
+      // res.status(200).send(user); 
+    });
+  });
+};
 
 // post messages
 router.patch("/store", async (req, res) => {
@@ -142,7 +169,8 @@ router.patch("/store", async (req, res) => {
 // deletes item in storage
 router.patch("/update", async (req, res) => {
   const user = await User.findOne({email: req.body.email});
-  console.log(user)
+  // const user = await tokenCheck(req, res)
+  // console.log(user)
   if(!user) {res.status(200).send("No user by that name.")}
   console.log("updating storage")
   try {
