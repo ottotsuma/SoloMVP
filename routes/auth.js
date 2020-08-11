@@ -93,6 +93,34 @@ router.post('/login', async (req, res) => {
     // res.send(user);
 });
 
+// fake route for testing the token
+router.get('/me', function(req, res, next) {
+  // console.log(req.headers)
+  let token = req.headers["x-access-token"] || req.headers["authorization"]; // Express headers are auto converted to lowercase
+
+  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+
+  if (token.startsWith("Bearer ")) {
+    // Remove Bearer from string
+    token = token.slice(7, token.length);
+  } 
+
+  jwt.verify(token, process.env.TOKEN_SECRET, async function(err, decoded) {
+    if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+    console.log(decoded)
+    await User.findById(decoded.userId, 
+    { password: 0 }, // projection
+    function (err, user) {
+      if (err) return res.status(500).send("There was a problem finding the user.");
+      if (!user) return res.status(404).send("No user found.");
+        
+      res.status(200).send(user); 
+    });
+  });
+});
+
+
+
 // post messages
 router.patch("/store", async (req, res) => {
   const user = await User.findOne({email: req.body.email});
