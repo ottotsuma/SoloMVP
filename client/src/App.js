@@ -9,6 +9,7 @@ const App = () => {
   const [query, setQuery] = useState("Scott@Smith.com");
   const [message, setMessage] = useState('');
   const [loggedIn, setLogin] = useState(false);
+  const [forgot, setForgot] = useState(false);
   const [replacement, setReplacement] = useState('');
   const [feedback, setFeedback] = useState('');
   const [arr, setArr] = useState([]);
@@ -41,8 +42,8 @@ const App = () => {
         }
       );
       console.log(response);
-      console.log(response.data.tags);
-      setArr(response.data.tags);
+      console.log(response.data.user.tags);
+      setArr(response.data.user.tags);
       setLogin(true);
     } catch (error) {
       console.log(error);
@@ -245,7 +246,63 @@ const App = () => {
     newItem(e)
   }
 
-  if(loggedIn === true) {
+  const forgotRoute = (e) => {
+    e.preventDefault()
+    console.log("here")
+    forgotPasswordRoute();
+  }
+
+    // changes the message on the user 
+    const forgotPasswordRoute = async () => {
+      try {
+        const response = await axios.patch(
+          `http://localhost:3000/api/user/forgot`,
+          {
+            email: query,
+            password: password,
+          }
+        );
+        console.log(response);
+        if(typeof response.data === 'string') {setMessage(response.data)}
+        else {setFeedback("Your password was updated!")}
+      } catch (error) {
+        console.log(error);
+        setFeedback("Username is invalid!");
+      }
+    };
+
+  if(forgot === true) {
+    return (
+      <div className="App">
+        <h1>The Secret Box</h1>
+        <div className="image"><img src={logo}></img></div>
+      <h2>Change Password:</h2>
+      <form onSubmit={forgotRoute} className="search-form">
+        <div>Email: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={query}
+          onChange={updateUser}
+        />
+        <div>New Password: </div>
+        <input
+          className="search-bar"
+          type="text"
+          value={password}
+          onChange={updatePass}
+        />
+        <button className="search-button" type="submit">
+          Change!
+        </button>
+      </form>
+      <div className="Message">{feedback}</div>
+      <div className="Buffer"> </div>
+      <button className="search-button" onClick={function() {setForgot(false)}}>Back</button>
+      </div> // app end
+    )
+  }
+  else if(loggedIn === true) {
     return (
       <div className="App">
       <h1>The Secret Box</h1>
@@ -396,6 +453,8 @@ const App = () => {
         </button>
       </form>
       <div>{feedback}</div>
+      <div className="Buffer"> </div>
+      <button className="search-button" onClick={function() {setForgot(true)}}>Forgot Password</button>
     </div> // ending div
   );
  } // else

@@ -43,6 +43,7 @@ body {
 }
 button {
   background-color: #3c46fb;
+  /* margin: 3px; */
 }
 h1 {
   color: #3c46fb;
@@ -86,4 +87,8 @@ li {
 
 li:before {
   content: '🎁';
+}
+
+.Buffer {
+  margin: 10px;
 }
