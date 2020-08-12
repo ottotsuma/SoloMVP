@@ -4,6 +4,14 @@ import axios from "axios";
 import logo from "./Group1.png";
 require("dotenv").config();
 
+let url = 'https://stagesolo.herokuapp.com/'
+
+if(process.env.NODE_ENV === 'development') {
+  console.log('Running locally')
+  url = 'http://localhost:3000/'
+}
+
+
 const App = () => {
   const [password, setPassword] = useState("ScottPass");
   const [query, setQuery] = useState("Scott@Smith.com");
@@ -35,7 +43,7 @@ const App = () => {
   const getMessage = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/user/login`,
+        `${url}api/user/login`,
         {
           email: query,
           password: password,
@@ -55,7 +63,7 @@ const App = () => {
     const loginFunction = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:3000/api/user/login`,
+          `${url}api/user/login`,
           {
             email: query,
             password: password,
@@ -73,7 +81,7 @@ const App = () => {
   const registerMessage = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/user/register`,
+        `${url}api/user/register`,
         {
           email: query,
           message: message,
@@ -92,7 +100,7 @@ const App = () => {
   const deleteUser = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/user/delete`,
+        `${url}api/user/delete`,
         {data: {
           email: "beansy@codechrysalis.com"
         }}
@@ -109,7 +117,7 @@ const App = () => {
   const patchUser = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/api/user/patch`,
+        `${url}api/user/patch`,
         {
           email: query,
           message: message,
@@ -128,7 +136,7 @@ const App = () => {
   const patchArray = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/api/user/store`,
+        `${url}api/user/store`,
         {
           email: query,
           message: message
@@ -147,7 +155,7 @@ const App = () => {
   const updateStore = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/api/user/update`,
+        `${url}api/user/update`,
         {
           email: query,
           message: message,
@@ -167,7 +175,7 @@ const App = () => {
   const newItem = async () => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/api/user/store`,
+        `${url}api/user/store`,
         {
           email: query,
           message: replacement
@@ -256,7 +264,7 @@ const App = () => {
     const forgotPasswordRoute = async () => {
       try {
         const response = await axios.patch(
-          `http://localhost:3000/api/user/forgot`,
+          `${url}api/user/forgot`,
           {
             email: query,
             password: password,
