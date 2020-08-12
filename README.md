@@ -10,6 +10,8 @@ This was created during my time as a student at Code Chrysalis.
 
 A safe storeage box for storing your secrets, passwords & links.
 
+![Alt text](client/src/Group1.png?raw=true "Title")
+
 ## How to use
 
 How to install
