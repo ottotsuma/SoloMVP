@@ -86,8 +86,8 @@ const App = () => {
         `${url}api/user/register`,
         {
           email: query,
-          message: message,
-          password: password
+          message: 'First Deploy',
+          password: password,
         }
       );
       console.log(response);

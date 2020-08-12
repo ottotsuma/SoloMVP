@@ -5,8 +5,15 @@ const dotenv = require('dotenv');
 const cors = require("cors");
 //import routes
 const authRoute = require('./routes/auth');
+var flash = require('connect-flash');
+var session=require('express-session');
 
-
+app.use(session({
+  secret: 'secret',
+  cookie:{maxAge:60000},
+  resave: false,
+  saveUninitialized: false
+}));
 dotenv.config();
 
 //Connect to DB
@@ -21,6 +28,7 @@ app.use(
     })
   );
 //   app.use(cors());
+app.use(flash());
 
 //route middlewears
 app.use('/api/user', authRoute);
