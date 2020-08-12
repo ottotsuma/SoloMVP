@@ -70,6 +70,8 @@ const App = () => {
           }
         );
         console.log(response);
+        // document.cookie = `Bearer ${response.data.token}`;
+        // console.log(document.cookie)
         setLogin(true);
       } catch (error) {
         console.log(error);

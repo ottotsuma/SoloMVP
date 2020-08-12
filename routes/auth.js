@@ -169,8 +169,7 @@ router.patch("/store", async (req, res) => {
 // deletes item in storage
 router.patch("/update", async (req, res) => {
   const user = await User.findOne({email: req.body.email});
-  // const user = await tokenCheck(req, res)
-  // console.log(user)
+  
   if(!user) {res.status(200).send("No user by that name.")}
   console.log("updating storage")
   try {
