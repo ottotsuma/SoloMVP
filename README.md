@@ -2,8 +2,6 @@
 
 This was created during my time as a student at Code Chrysalis.
 
-# Shaun the awesome
-
 ## Our Team
 
 - [Shaun] (https://github.com/ottotsuma)
