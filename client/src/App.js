@@ -4,6 +4,16 @@ import axios from "axios";
 import logo from "./Group1.png";
 require("dotenv").config();
 
+import axios from 'axios'
+
+
+async function getdata () {
+    const data = await axios.get(`https://api.gnavi.co.jp/RestSearchAPI/v3/?keyid=${process.env.REACT_APP_API_KEY}pref=PREF13`)
+    console.log(data)
+  }
+
+  getdata();
+
 let url = 'https://stagesolo.herokuapp.com/'
 
 if(process.env.NODE_ENV === 'development') {
