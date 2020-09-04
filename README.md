@@ -35,3 +35,7 @@ A app that allows users to login and store their data.
 - Implement e-mailing for forgotten password
 - Use AWS to save images as well as array data
 - Implement better SASS 
+
+## Contributions
+
+Please feel free check though the issues or raise your own, feel free to fork/clone and make pull requests. 
