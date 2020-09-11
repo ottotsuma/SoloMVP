@@ -35,6 +35,11 @@ const App = () => {
     setDataUser(data)
   }
 
+  const handleLogout = () => {
+    setLogin(false)
+    setDataUser('')
+  }
+
   // const delU = (e) => {
   //   e.preventDefault();
   //   deleteUser();
@@ -85,6 +90,9 @@ const App = () => {
   return (
     <div className="App">
     <h1>The Secret Box</h1>
+    {
+      loggedIn && <button className="search-button" onClick={() => handleLogout()}>Logout</button>
+    }
     <div className="image"><img src={logo}></img></div>
 
     {forgot && <ChangePassForm onChange={(status) => {handleForgotPass(status)}}/>}
