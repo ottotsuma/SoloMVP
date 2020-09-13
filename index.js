@@ -17,9 +17,9 @@ app.use(session({
 dotenv.config();
 
 // The server is also hosted at this address if you cannot connect without DB_Connect
-// https://stagesolo.herokuapp.com/ 
+// https://stagesolo.herokuapp.com/
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => console.log('connected to database!')
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to database!')
 );
 
 //Middlewears
