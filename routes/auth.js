@@ -10,6 +10,9 @@ const {
   loginValidation,
 } = require("./../model/Validation");
 
+router.get("/", (req, res) => {
+  res.json({message: "Server is running"})
+})
 
 router.post("/register", async (req, res) => {
   console.log(req.body)
