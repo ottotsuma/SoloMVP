@@ -40,3 +40,6 @@ A app that allows users to login and store their data.
 
 Please feel free check though the issues or raise your own, feel free to fork/clone and make pull requests. 
 I will be doing OSS every Friday 9am ~ Japanese time.
+
+## Contributors
+@stefanuslim
