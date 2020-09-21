@@ -2,15 +2,17 @@
 
 This was created during my time as a student at Code Chrysalis.
 
-## Our Team
-
-- [Shaun] (https://github.com/ottotsuma)
+visit https://5f333aac5478be0007e1bbcc--ottotsuma.netlify.app/
 
 ## Our Project Idea
 
 A safe storeage box for storing your secrets, passwords & links.
 
 ![Alt text](client/src/Group1.png?raw=true "Title")
+
+## Our Team
+
+- [Shaun] (https://github.com/ottotsuma)
 
 ## How to use
 
@@ -19,8 +21,6 @@ How to install
 2. yarn install
 3. Set .env TOKEN_SECRET & DB_CONNECT
 4. yarn start
-
-or visit https://5f333aac5478be0007e1bbcc--ottotsuma.netlify.app/
 
 ## Workflow
 
